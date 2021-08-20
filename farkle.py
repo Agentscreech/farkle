@@ -167,12 +167,12 @@ class Player:
         self.name = input("Name of the player: ")
 
     def initial_roll(self) -> list:
-        self.dice = [self.roll(), self.roll(), self.roll(), self.roll(), self.roll(), self.roll()]
-    def roll(self) -> int:
+        self.dice = [self.__roll(), self.__roll(), self.__roll(), self.__roll(), self.__roll(), self.__roll()]
+    def __roll(self) -> int:
         return random.randint(1, 6)
     def reroll(self) -> list:
         for i in range(len(self.dice)):
-            self.dice[i] = self.roll()
+            self.dice[i] = self.__roll()
 
 
 
@@ -195,23 +195,29 @@ def turn_flow(player: Player) -> None:
         print(f"This roll is currently worth {temp_score} points")
         reroll = input("Type 'done' to keep dice with this score or 'reroll' to reroll dice: ")
         reroll = reroll.lower()
-        while reroll != "done" and reroll != "reroll":
+        while reroll != "done" and reroll != "d" and reroll != "reroll" and reroll != "r":
             reroll = input("Type 'done' to keep dice with this score or 'reroll' to reroll dice: ")
-        if reroll == "done":
+        if reroll == "done" or reroll == "d":
             player.score += temp_score + player.held_score
-            print(f"{player.name}'s score is now {player.score}")
+            print(f"{player.name}'s turn was worth {temp_score + player.held_score}")
+            print(f"{player.name}'s score is now {player.score}\n")
             player.held_score = 0
             player.held_dice = []
             break
-        elif reroll == "reroll":
+        elif reroll == "reroll" or reroll == "r":
             finished = False
             while not finished:
                 print(player.dice)
                 choice = input("Which dice would you like to keep? Input the index of the dice (zero indexed) Type 'Done' to finish: ")
-                if choice.lower() == "done":
+                if choice.lower() == "done" or choice.lower() == "d":
                     finished = True
                     continue
                 else:
+                    try:
+                        choice = int(choice)
+                    except ValueError:
+                        print("Please enter a valid number")
+                        continue
                     player.held_dice.append(player.dice[int(choice)])
                     player.dice.remove(player.dice[int(choice)])
             player.held_score = score_dice(player.held_dice)
