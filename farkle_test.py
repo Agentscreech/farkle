@@ -54,8 +54,38 @@ def test_check_five_ones_with_a_five():
 def test_check_five_fives_with_a_one():
     assert score_dice([5,5,5,5,5,1]) == 2100
 
-def test_check_four_fives_with_ones():
+def test_check_four_fives_with_a_one():
     assert score_dice([3,5,5,5,5,1]) == 1100
 
-def test_check_four_ones_with_fives():
+def test_check_four_ones_with_a_five():
     assert score_dice([1,1,1,1,3,5]) == 1050
+
+def test_check_three_ones_and_two_fives():
+    assert score_dice([1,1,1,3,5,5]) == 400
+
+def test_check_three_fives_and_two_ones():
+    assert score_dice([5,5,5,3,1,1]) == 700
+
+def test_check_three_ones_and_garbage():
+    assert score_dice([1,1,1,2,3,6]) == 300
+
+def test_check_two_ones_and_garbage():
+    assert score_dice([1,1,2,3,6,6]) == 200
+
+def test_check_one_ones_and_garbage():
+    assert score_dice([1,2,3,4,6,6]) == 100
+
+def test_check_three_fives_and_garbage():
+    assert score_dice([5,5,5,2,3,6]) == 500
+
+def test_check_two_fives_and_garbage():
+    assert score_dice([5,5,2,3,6,6]) == 100
+
+def test_check_one_fives_and_garbage():
+    assert score_dice([5,2,3,4,6,6]) == 50
+
+def test_check_three_threes_and_a_one():
+    assert score_dice([3,3,3,6,2,1]) == 400
+
+def test_check_three_threes_and_a_five():
+    assert score_dice([3,3,3,6,2,5]) == 350

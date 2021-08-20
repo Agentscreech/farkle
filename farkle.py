@@ -34,8 +34,10 @@ def check_four_two(dice: list) -> int:
     for i in range(1, 7):
         if dice_count[i] == 4:
             four = True
+            continue
         if dice_count[i] == 2:
             two = True
+            continue
     if four == True and two == True:
         return 1500
     return 0
@@ -48,10 +50,13 @@ def check_three_pair(dice: list) -> int:
     for i in range(1, 7):
         if dice_count[i] == 2 and one == False:
             one = True
+            continue
         if dice_count[i] == 2 and two == False:
             two = True
+            continue
         if dice_count[i] == 2 and three == False:
             three = True
+            continue
     if one != False and two != False and three != False:
         return 1500
     return 0
@@ -63,8 +68,10 @@ def check_three_triplets(dice: list) -> int:
     for i in range(1, 7):
         if dice_count[i] == 3 and one == False:
             one = True
+            continue
         if dice_count[i] == 3 and two == False:
             two = True
+            continue
     if one != False and two != False:
         return 2500
     return 0
@@ -122,15 +129,32 @@ def score_dice(dice: list) -> int:
         else:
             if check_set_of_four(dice) + check_fives(dice) + check_ones(dice) > temp_score:
                 temp_score = check_set_of_four(dice) + check_fives(dice) + check_ones(dice)
-                
+
     if check_four_two(dice) > temp_score:
         temp_score = check_four_two(dice)
     if check_three_pair(dice) > temp_score:
         temp_score = check_three_pair(dice)
     if check_three_triplets(dice) > temp_score:
         temp_score = check_three_triplets(dice)
-    if check_triple(dice) + check_ones(dice) + check_fives(dice) > temp_score:
-        temp_score = check_triple(dice) + check_ones(dice) + check_fives(dice)
+
+    if check_triple(dice) > 0:
+        if ones_qty == 3:
+            if check_triple(dice) + check_fives(dice) > temp_score:
+                temp_score = check_triple(dice) + check_fives(dice)
+        elif fives_qty == 3:
+            if check_triple(dice) + check_ones(dice) > temp_score:
+                temp_score = check_triple(dice) + check_ones(dice)
+        else:
+            if check_triple(dice) + check_fives(dice) + check_ones(dice) > temp_score:
+                temp_score = check_triple(dice) + check_fives(dice) + check_ones(dice)
+    
+    if check_ones(dice) + check_fives(dice) > temp_score:
+        temp_score = check_ones(dice) + check_fives(dice)
+    if check_ones(dice) > temp_score:
+        temp_score = check_ones(dice)
+    if check_fives(dice) > temp_score:
+        temp_score = check_fives(dice)
+
     return temp_score
 
 #a class that is used to keep track of the player's score
