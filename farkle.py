@@ -93,18 +93,36 @@ def check_fives(dice: list) -> int:
 
 def score_dice(dice: list) -> int:
     temp_score = 0
+    ones_qty = Counter(dice)[1]
+    fives_qty = Counter(dice)[5]
     if check_straight(dice) > temp_score:
         temp_score = check_straight(dice)
+
     if check_set_of_six(dice) > temp_score:
         temp_score = check_set_of_six(dice)
-        #TODO: this wont work right if there are 5 ones or fives
-    if check_set_of_five(dice) + check_ones(dice) + check_fives(dice) > temp_score:
-        temp_score = check_set_of_five(
-            dice) + check_ones(dice) + check_fives(dice)
-        #TODO: this wont work right if there are 5 ones or fives
-    if check_set_of_four(dice) + check_ones(dice) + check_fives(dice) > temp_score:
-        temp_score = check_set_of_four(
-            dice) + check_ones(dice) + check_fives(dice)
+
+    if check_set_of_five(dice) > 0:
+        if ones_qty == 5:
+            if check_set_of_five(dice) + check_fives(dice) > temp_score:
+                temp_score = check_set_of_five(dice) + check_fives(dice)
+        elif fives_qty == 5:
+            if check_set_of_five(dice) + check_ones(dice) > temp_score:
+                temp_score = check_set_of_five(dice) + check_ones(dice)
+        else:
+            if check_set_of_five(dice) + check_fives(dice) + check_ones(dice) > temp_score:
+                temp_score = check_set_of_five(dice) + check_fives(dice) + check_ones(dice)
+
+    if check_set_of_four(dice) > 0:
+        if ones_qty == 4:
+            if check_set_of_four(dice) + check_fives(dice) > temp_score:
+                temp_score = check_set_of_four(dice) + check_fives(dice)
+        elif fives_qty == 4:
+            if check_set_of_four(dice) + check_ones(dice) > temp_score:
+                temp_score = check_set_of_four(dice) + check_ones(dice)
+        else:
+            if check_set_of_four(dice) + check_fives(dice) + check_ones(dice) > temp_score:
+                temp_score = check_set_of_four(dice) + check_fives(dice) + check_ones(dice)
+                
     if check_four_two(dice) > temp_score:
         temp_score = check_four_two(dice)
     if check_three_pair(dice) > temp_score:
